@@ -8,6 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,5 +33,7 @@ public class DsmetaApplication implements CommandLineRunner {
 			System.out.println(obj);
 		}
 
+		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		System.out.println(today);
 	}
 }

@@ -1,5 +1,8 @@
 package com.devsuperior.dsmeta.services;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +29,13 @@ public class SaleService {
 	}
 
 	public List<SaleSumDTO> getSummary(String minDate, String maxDate) {
+
+		if (minDate.isEmpty() && maxDate.isEmpty()) {
+			LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+			minDate = String.valueOf(today.minusYears(1L));
+			maxDate = String.valueOf(today);
+		}
+
 		List<SaleSumProjection> list = repository.search1(minDate, maxDate);
 		List<SaleSumDTO> result1 = list.stream().map(x -> new SaleSumDTO(x)).collect(Collectors.toList());
 
