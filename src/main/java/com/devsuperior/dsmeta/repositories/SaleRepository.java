@@ -26,7 +26,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "TB_SELLER.ID, TB_SELLER.NAME;")
     List<SaleSumProjection> search1(String minDate, String maxDate);
 
-
     @Query(nativeQuery = true, value = "SELECT " +
             "TB_SALES.ID, " +
             "TB_SALES.DATE, " +

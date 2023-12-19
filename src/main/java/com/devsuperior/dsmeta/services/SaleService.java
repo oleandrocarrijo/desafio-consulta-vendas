@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.devsuperior.dsmeta.dto.SaleRelatoryDTO;
 import com.devsuperior.dsmeta.dto.SaleSumDTO;
+import com.devsuperior.dsmeta.projections.SaleRelatoryProjection;
 import com.devsuperior.dsmeta.projections.SaleSumProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,21 @@ public class SaleService {
 		}
 
 		List<SaleSumProjection> list = repository.search1(minDate, maxDate);
-		List<SaleSumDTO> result1 = list.stream().map(x -> new SaleSumDTO(x)).collect(Collectors.toList());
+		List<SaleSumDTO> result = list.stream().map(x -> new SaleSumDTO(x)).collect(Collectors.toList());
 
-		return result1;
+		return result;
+	}
+
+	public List<SaleRelatoryDTO> getReport(String minDate, String maxDate, String name) {
+
+		if (minDate.isEmpty() && maxDate.isEmpty()) {
+			LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+			minDate = String.valueOf(today.minusYears(1L));
+			maxDate = String.valueOf(today);
+		}
+
+		List<SaleRelatoryProjection> list = repository.search2(minDate, maxDate, name);
+		List<SaleRelatoryDTO> result = list.stream().map(x -> new SaleRelatoryDTO(x)).collect(Collectors.toList());
+		return result;
 	}
 }
