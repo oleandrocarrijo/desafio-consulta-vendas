@@ -32,10 +32,13 @@ public class SaleService {
 
 	public List<SaleSumDTO> getSummary(String minDate, String maxDate) {
 
-		if (minDate.isEmpty() && maxDate.isEmpty()) {
+		if (maxDate.isEmpty()) {
 			LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-			minDate = String.valueOf(today.minusYears(1L));
 			maxDate = String.valueOf(today);
+		}
+		if (minDate.isEmpty()) {
+			LocalDate date = LocalDate.parse(maxDate).minusYears(1L);
+			minDate = String.valueOf(date);
 		}
 
 		List<SaleSumProjection> list = repository.search1(minDate, maxDate);
@@ -46,10 +49,13 @@ public class SaleService {
 
 	public List<SaleRelatoryDTO> getReport(String minDate, String maxDate, String name) {
 
-		if (minDate.isEmpty() && maxDate.isEmpty()) {
+		if (maxDate.isEmpty()) {
 			LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-			minDate = String.valueOf(today.minusYears(1L));
 			maxDate = String.valueOf(today);
+		}
+		if (minDate.isEmpty()) {
+			LocalDate date = LocalDate.parse(maxDate).minusYears(1L);
+			minDate = String.valueOf(date);
 		}
 
 		List<SaleRelatoryProjection> list = repository.search2(minDate, maxDate, name);
