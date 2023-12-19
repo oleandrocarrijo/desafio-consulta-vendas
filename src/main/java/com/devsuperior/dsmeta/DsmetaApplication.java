@@ -1,6 +1,8 @@
 package com.devsuperior.dsmeta;
 
+import com.devsuperior.dsmeta.dto.SaleRelatoryDTO;
 import com.devsuperior.dsmeta.dto.SaleSumDTO;
+import com.devsuperior.dsmeta.projections.SaleRelatoryProjection;
 import com.devsuperior.dsmeta.projections.SaleSumProjection;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,15 @@ public class DsmetaApplication implements CommandLineRunner {
 			System.out.println(obj);
 		}
 
-		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-		System.out.println(today);
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println();
+
+		List<SaleRelatoryProjection> list2 = repository.search2("2022-05-01", "2022-05-31", "Odinson");
+		List<SaleRelatoryDTO> result2 = list2.stream().map(x -> new SaleRelatoryDTO(x)).collect(Collectors.toList());
+
+		for (SaleRelatoryDTO obj : result2) {
+			System.out.println(obj);
+		}
 	}
 }
